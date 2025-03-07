@@ -1,5 +1,31 @@
 let human = 0;
 let pc = 0;
+let decision = ''
+const comments = document.createElement("div");
+document.body.appendChild(comments);
+const win = document.querySelector("#winner")
+const elections = document.createElement("div");
+document.body.appendChild(elections);
+
+
+let rock = document.querySelector("#rock")
+let paper = document.querySelector("#paper")
+let scissors = document.querySelector("#scissors")
+rock.addEventListener("click", () => {
+    decision = "rock"
+    game(decision);
+ })
+
+ paper.addEventListener("click", () => {
+     decision = "paper"
+     game(decision);
+  })
+
+ scissors.addEventListener("click", () => {
+     decision = "scissors"
+     game(decision);
+ })
+
 function getComputerChoice(){
     const random = Math.floor(Math.random() * 3);
     if(random == 1){
@@ -11,55 +37,65 @@ function getComputerChoice(){
     }
 };
 
-function getHumanChoice(){
-    const human = prompt('Enter your choice: rock, paper, or scissors');
-    return human.toLowerCase();
-};
-
-function playRound(humanChoice, computerChoice){
-    if (humanChoice == 'rock' && computerChoice == 'paper'){
-        console.log('You lose, computer wins')
+function playRound(humanChoice, computerChoice) {
+    if (humanChoice == 'rock' && computerChoice == 'paper') {
+        comments.textContent = 'You lose, computer wins';
         pc += 1;
-    } else if (humanChoice == 'paper' && computerChoice == 'rock'){
-        console.log('You win, computer sucks.')
+    } else if (humanChoice == 'paper' && computerChoice == 'rock') {
+        comments.textContent = 'You win, computer sucks.';
         human += 1;
-    } else if (humanChoice == 'scissors' && computerChoice == 'rock'){
-        console.log('You lose, computer wins')
+    } else if (humanChoice == 'scissors' && computerChoice == 'rock') {
+        comments.textContent = 'You lose, computer wins';
         pc += 1;
-    } else if (humanChoice == 'rock' && computerChoice == 'scissors'){
-        console.log('You win, computer sucks')
+    } else if (humanChoice == 'rock' && computerChoice == 'scissors') {
+        comments.textContent = 'You win, computer sucks';
         human += 1;
-    } else if (humanChoice == 'paper' && computerChoice == 'scissors'){
-        console.log('You lose, computer wins')
+    } else if (humanChoice == 'paper' && computerChoice == 'scissors') {
+        comments.textContent = 'You lose, computer wins';
         pc += 1;
-    } else if (humanChoice == 'scissors' && computerChoice == 'paper'){
-        console.log('You win, computer sucks')
+    } else if (humanChoice == 'scissors' && computerChoice == 'paper') {
+        comments.textContent = 'You win, computer sucks';
         human += 1;
     } else {
-        console.log('Its a tie')
-    } 
+        comments.textContent = 'It\'s a tie';
+    }
+    updateScore();
 };
 
-
-
-
-for (let i = 0; i < 5; i++){
-    const humanSelection = getHumanChoice();
-    const computerSelection = getComputerChoice();
-    console.log('HUMAN ELIGIO: ' + humanSelection + ' PC choose: ' + computerSelection);
-    playRound(humanSelection, computerSelection);
-}
-
-console.log('HUMAN: ' + human + ' PC: ' + pc)
-
-function winner(){
-    if (human > pc ){
-        console.log("Human win")
-    } else if (pc > human){
-        console.log('PC win')
-    } else{
-        console.log('TIE')
+function game(a) {
+    let computerSelection = getComputerChoice();
+    playRound(a, computerSelection);
+    elections.textContent = 'Human choose :' + a + ' PC choose: ' + computerSelection
+    if (human === 5){
+        winner();
+    } else if (pc === 5){
+        winner();
     }
 }
 
-winner();
+
+function updateScore() {
+    win.textContent = `Human: ${human} - PC: ${pc}`;
+}
+
+function winner(){
+    if (human > pc ){
+        win.textContent= "Human win"
+        human = 0
+        pc = 0
+        comments.textContent = ''
+        elections.textContent = ''
+    } else if (pc > human){
+        win.textContent= 'PC win'
+        human = 0
+        pc = 0
+        comments.textContent = ''
+        elections.textContent = ''
+    } else{
+        win.textContent= 'TIE'
+        human = 0
+        pc = 0
+        comments.textContent = ''
+        elections.textContent = ''
+    }
+}
